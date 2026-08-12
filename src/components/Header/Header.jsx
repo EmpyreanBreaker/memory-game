@@ -1,7 +1,7 @@
 export default function Header() {
   return (
-    <header>
-      <h1>Memory Poke</h1>
+    <header className="header">
+      <h1 className="header__title">Memory Poke</h1>
     </header>
   );
 }

@@ -1,47 +1,42 @@
-import { useEffect } from "react";
-import getRandomIds from "../../scripts/fetchPokemon";
-
-const CARD_COUNT = 16;
-const POKEMON_COUNT = 151;
+import { useEffect, useState } from "react";
+import fetchPokemon from "../../scripts/fetchPokemon";
+import Card from "../Card/Card";
+import shuffle from "../../scripts/shuffle";
+import Scoreboard from "../Scoreboard/Scoreboard";
 
 export default function Gameboard() {
+  const [gameCards, setGameCards] = useState([]);
+  const [clickedCards, setClickedCards] = useState([]);
+
   useEffect(() => {
-    async function loadPokemon() {
-      try {
-        const ids = getRandomIds(CARD_COUNT, POKEMON_COUNT);
-
-        const responses = await Promise.all(
-          ids.map((id) => fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)),
-        );
-
-        if (responses.some((response) => !response.ok)) {
-          throw new Error("Failed to fetch Pokemon");
-        }
-
-        const results = await Promise.all(
-          responses.map((response) => response.json()),
-        );
-
-        const cards = results.map((pokemon) => ({
-          id: pokemon.id,
-          name: pokemon.name,
-          image: pokemon.sprites.other["official-artwork"].front_default,
-        }));
-
-        // const cards = results.map((pokemon) => ({
-        //   id: pokemon.id,
-        //   name: pokemon.name,
-        //   image: pokemon.sprites.other["official-artwork"].front_default,
-        // }));
-
-        console.log(cards);
-      } catch (error) {
-        console.error("Failed to fetch Pokemon:", error);
-      }
-    }
-
-    loadPokemon();
+    (async () => {
+      const pokemonList = await fetchPokemon();
+      setGameCards(pokemonList);
+    })();
   }, []);
 
-  return <div></div>;
+  const handleGameCardClick = (pokemonId) => {
+    console.log(pokemonId);
+    clickedCards.includes(pokemonId)
+      ? console.log("Gameover")
+      : setClickedCards([...clickedCards, pokemonId]);
+    console.log(clickedCards.length);
+    console.log(clickedCards);
+    setGameCards(shuffle(gameCards));
+  };
+
+  return (
+    <main className="gameboard">
+      <Scoreboard />
+      {gameCards.map((pokemon) => (
+        <Card
+          key={pokemon.id}
+          id={pokemon.id}
+          name={pokemon.name}
+          image={pokemon.image}
+          handleCardClick={handleGameCardClick}
+        ></Card>
+      ))}
+    </main>
+  );
 }
