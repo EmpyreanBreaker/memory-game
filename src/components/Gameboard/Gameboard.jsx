@@ -3,25 +3,42 @@ import fetchPokemon from "../../scripts/fetchPokemon";
 import Card from "../Card/Card";
 import shuffle from "../../scripts/shuffle";
 import Scoreboard from "../Scoreboard/Scoreboard";
+import Spinner from "../Spinner/Spinner";
+import GameResultDialog from "../GameResultDialog/GameResultDialog";
 
 export default function Gameboard() {
-  // TODO: Implement loading and failed to load functionality
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const [gameCards, setGameCards] = useState([]);
   const [clickedCards, setClickedCards] = useState([]);
+
   const [bestScore, setBestScore] = useState(0);
   const score = clickedCards.length;
 
+  const [isGameOver, setIsGameOver] = useState(false);
+  const [result, setResult] = useState("");
+
   useEffect(() => {
     (async () => {
-      const pokemonList = await fetchPokemon();
-      setGameCards(pokemonList);
+      try {
+        setIsLoading(true);
+        setError(null);
+        const pokemonList = await fetchPokemon();
+        setGameCards(pokemonList);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setIsLoading(false);
+      }
     })();
   }, []);
 
   const handleGameCardClick = (pokemonId) => {
     if (clickedCards.includes(pokemonId)) {
       setClickedCards([]);
-      // TODO: Implement Duplicate Pokemon - Team Rocket Has Deceived You
+      setIsGameOver(true);
+      setResult("You Lose!");
     } else {
       const newClickedCards = [...clickedCards, pokemonId];
       const newScore = newClickedCards.length;
@@ -30,13 +47,50 @@ export default function Gameboard() {
       setBestScore((previousBest) => Math.max(previousBest, newScore));
 
       if (newScore === gameCards.length) {
-        // TODO: Add New Game And You Win Form
-        alert("You Win");
+        setIsGameOver(true);
+        setResult("You Win!");
       }
     }
 
     setGameCards((cards) => shuffle(cards));
   };
+
+  const handlePlayAgain = async () => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const pokemonList = await fetchPokemon();
+
+      setGameCards(pokemonList);
+      setClickedCards([]);
+      setIsGameOver(false);
+      setResult("");
+    } catch (error) {
+      setError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <main className="gameboard">
+        <Spinner />
+        <p className="gameboard__status">Loading Pokémon...</p>
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className="gameboard">
+        <p className="gameboard__status gameboard__status--error">
+          Could not load Pokémon. Please try again.
+        </p>
+      </main>
+    );
+  }
 
   return (
     <main className="gameboard">
@@ -48,8 +102,14 @@ export default function Gameboard() {
           name={pokemon.name}
           image={pokemon.image}
           handleCardClick={handleGameCardClick}
+          disabled={isGameOver}
         ></Card>
       ))}
+      <GameResultDialog
+        isGameOver={isGameOver}
+        result={result}
+        handlePlayAgain={handlePlayAgain}
+      />
     </main>
   );
 }

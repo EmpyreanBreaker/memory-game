@@ -1,4 +1,4 @@
-const CARD_COUNT = 5;
+const CARD_COUNT = 18;
 const POKEMON_COUNT = 151;
 
 function getRandomIds(amount, maximum) {
@@ -14,30 +14,25 @@ function getRandomIds(amount, maximum) {
 }
 
 export default async function fetchPokemon() {
-  try {
-    const ids = getRandomIds(CARD_COUNT, POKEMON_COUNT);
+  const ids = getRandomIds(CARD_COUNT, POKEMON_COUNT);
 
-    const responses = await Promise.all(
-      ids.map((id) => fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)),
-    );
+  const responses = await Promise.all(
+    ids.map((id) => fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)),
+  );
 
-    if (responses.some((response) => !response.ok)) {
-      throw new Error("Failed to fetch Pokemon");
-    }
-
-    const results = await Promise.all(
-      responses.map((response) => response.json()),
-    );
-
-    const cards = results.map((pokemon) => ({
-      id: pokemon.id,
-      name: pokemon.name,
-      image: pokemon.sprites.other["official-artwork"].front_default,
-    }));
-
-    return cards;
-  } catch (error) {
-    console.error("Failed to fetch Pokemon:", error);
-    return [];
+  if (responses.some((response) => !response.ok)) {
+    throw new Error("Failed to fetch Pokemon");
   }
+
+  const results = await Promise.all(
+    responses.map((response) => response.json()),
+  );
+
+  const cards = results.map((pokemon) => ({
+    id: pokemon.id,
+    name: pokemon.name,
+    image: pokemon.sprites.other["official-artwork"].front_default,
+  }));
+
+  return cards;
 }

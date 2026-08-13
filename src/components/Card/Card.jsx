@@ -1,4 +1,4 @@
-export default function Card({ id, name, image, handleCardClick }) {
+export default function Card({ id, name, image, handleCardClick, disabled }) {
   const buttonStyle = {
     backgroundImage: `url("${image}")`,
     backgroundSize: "cover",
@@ -16,6 +16,7 @@ export default function Card({ id, name, image, handleCardClick }) {
       className="card"
       style={buttonStyle}
       onClick={() => handleCardClick(id)}
+      disabled={disabled}
     >
       <p className="card__name">{name}</p>
     </button>
