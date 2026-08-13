@@ -1,4 +1,4 @@
-const CARD_COUNT = 18;
+const CARD_COUNT = 14;
 const POKEMON_COUNT = 151;
 
 function getRandomIds(amount, maximum) {

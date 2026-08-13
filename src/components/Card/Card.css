@@ -1,0 +1,106 @@
+.card {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(7rem, 1fr) auto;
+  min-width: 0;
+  min-height: 12.75rem;
+  padding: 0.65rem;
+  overflow: hidden;
+  color: #17233b;
+  background: linear-gradient(145deg, #fffdf4, #efe8cc);
+  border: 0.24rem solid #17233b;
+  border-radius: 1rem;
+  box-shadow:
+    0 0.42rem 0 #17233b,
+    0 0.65rem 1.3rem rgb(31 40 59 / 16%);
+  cursor: pointer;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease,
+    border-color 150ms ease;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 20%, rgb(255 255 255 / 55%) 46%, transparent 62%);
+  transform: translateX(-120%);
+  transition: transform 350ms ease;
+}
+
+.card:hover:not(:disabled) {
+  z-index: 1;
+  border-color: #2b6fba;
+  box-shadow:
+    0 0.55rem 0 #2b6fba,
+    0 0.8rem 1.5rem rgb(31 40 59 / 24%);
+  transform: translateY(-0.28rem) rotate(-0.5deg);
+}
+
+.card:hover:not(:disabled)::before {
+  transform: translateX(120%);
+}
+
+.card:active:not(:disabled) {
+  box-shadow: 0 0.16rem 0 #17233b;
+  transform: translateY(0.15rem);
+}
+
+.card:focus-visible {
+  outline: 0.25rem solid #ffcb05;
+  outline-offset: 0.25rem;
+}
+
+.card:disabled {
+  cursor: default;
+}
+
+.card__number {
+  justify-self: end;
+  color: #60708d;
+  font-size: 0.67rem;
+  font-weight: 900;
+  letter-spacing: 0.09em;
+}
+
+.card__artwork {
+  width: 100%;
+  min-height: 7rem;
+  background-image:
+    radial-gradient(circle, rgb(78 147 211 / 18%) 0 36%, transparent 37%),
+    var(--card-image);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 90%, contain;
+  filter: drop-shadow(0 0.35rem 0.25rem rgb(22 35 59 / 20%));
+  transition: transform 180ms ease;
+}
+
+.card:hover:not(:disabled) .card__artwork {
+  transform: scale(1.08);
+}
+
+.card__name {
+  margin: 0.15rem -0.2rem -0.2rem;
+  padding: 0.5rem 0.35rem;
+  color: white;
+  font-size: clamp(0.78rem, 1.5vw, 0.95rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0.035em;
+  text-transform: capitalize;
+  background: #d92f3d;
+  border: 0.16rem solid #17233b;
+  border-radius: 0.55rem;
+  box-shadow: inset 0 -0.18rem 0 rgb(119 14 32 / 30%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .card::before,
+  .card__artwork {
+    transition: none;
+  }
+}

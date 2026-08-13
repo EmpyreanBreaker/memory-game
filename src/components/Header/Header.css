@@ -1,0 +1,118 @@
+.header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1.15rem clamp(1rem, 4vw, 4rem);
+  overflow: hidden;
+  color: white;
+  background: linear-gradient(135deg, #d92f3d 0%, #b91f31 62%, #8c1628 100%);
+  border-bottom: 0.45rem solid #17233b;
+  box-shadow: 0 0.35rem 0 rgb(255 203 5 / 85%);
+}
+
+.header::after {
+  content: "";
+  position: absolute;
+  right: -4rem;
+  width: 18rem;
+  aspect-ratio: 1;
+  border: 2.5rem solid rgb(255 255 255 / 6%);
+  border-radius: 50%;
+}
+
+.header__brand {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.header__pokeball {
+  position: relative;
+  flex: 0 0 auto;
+  width: clamp(3.25rem, 6vw, 4.75rem);
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: linear-gradient(#f7f7f2 0 43%, #17233b 43% 57%, #f7f7f2 57%);
+  border: 0.28rem solid #17233b;
+  border-radius: 50%;
+  box-shadow: 0 0.25rem 0 rgb(23 35 59 / 35%);
+}
+
+.header__pokeball::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 43%;
+  background: #ee3347;
+}
+
+.header__pokeball::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 30%;
+  aspect-ratio: 1;
+  background: #f7f7f2;
+  border: 0.22rem solid #17233b;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.header__eyebrow {
+  margin-bottom: -0.15rem;
+  color: #ffdc48;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.header__title {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 950;
+  line-height: 1;
+  letter-spacing: -0.055em;
+  text-shadow: 0 0.18rem 0 #17233b;
+}
+
+.header__title-accent {
+  color: #ffdc48;
+}
+
+.header__instructions {
+  position: relative;
+  z-index: 1;
+  max-width: 28rem;
+  padding: 0.7rem 1rem;
+  color: #fff8da;
+  font-size: clamp(0.8rem, 1.5vw, 0.98rem);
+  font-weight: 700;
+  text-align: center;
+  background: rgb(80 8 22 / 30%);
+  border: 1px solid rgb(255 255 255 / 18%);
+  border-radius: 0.75rem;
+}
+
+.header__instructions span {
+  display: block;
+}
+
+@media (max-width: 42rem) {
+  .header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .header__instructions {
+    width: 100%;
+    text-align: center;
+  }
+}

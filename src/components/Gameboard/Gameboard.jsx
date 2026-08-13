@@ -5,6 +5,7 @@ import shuffle from "../../scripts/shuffle";
 import Scoreboard from "../Scoreboard/Scoreboard";
 import Spinner from "../Spinner/Spinner";
 import GameResultDialog from "../GameResultDialog/GameResultDialog";
+import "./Gameboard.css";
 
 export default function Gameboard() {
   const [isLoading, setIsLoading] = useState(true);
@@ -95,16 +96,18 @@ export default function Gameboard() {
   return (
     <main className="gameboard">
       <Scoreboard score={score} bestScore={bestScore} />
-      {gameCards.map((pokemon) => (
-        <Card
-          key={pokemon.id}
-          id={pokemon.id}
-          name={pokemon.name}
-          image={pokemon.image}
-          handleCardClick={handleGameCardClick}
-          disabled={isGameOver}
-        ></Card>
-      ))}
+      <section className="gameboard__cards" aria-label="Pokémon cards">
+        {gameCards.map((pokemon) => (
+          <Card
+            key={pokemon.id}
+            id={pokemon.id}
+            name={pokemon.name}
+            image={pokemon.image}
+            handleCardClick={handleGameCardClick}
+            disabled={isGameOver}
+          />
+        ))}
+      </section>
       <GameResultDialog
         isGameOver={isGameOver}
         result={result}

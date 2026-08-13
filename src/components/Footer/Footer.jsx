@@ -1,3 +1,5 @@
+import "./Footer.css";
+
 export default function Footer() {
   return (
     <footer className="footer">
@@ -11,7 +13,7 @@ export default function Footer() {
         </a>
       </p>
       <p className="footer__acknowledgment">
-        With thanks to
+        With thanks to{" "}
         <a
           className="footer__link"
           href="https://www.theodinproject.com/lessons/node-path-react-new-memory-card#project-solution"

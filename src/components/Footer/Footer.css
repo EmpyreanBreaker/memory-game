@@ -1,0 +1,30 @@
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  padding: 1rem clamp(1rem, 4vw, 4rem);
+  color: #dce6f5;
+  font-size: 0.76rem;
+  font-weight: 650;
+  background: #17233b;
+  border-top: 0.3rem solid #ffcb05;
+}
+
+.footer__link {
+  color: #ffdc48;
+  font-weight: 850;
+  text-underline-offset: 0.18em;
+}
+
+.footer__link:hover,
+.footer__link:focus-visible {
+  color: white;
+}
+
+@media (max-width: 42rem) {
+  .footer {
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+  }
+}
